@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paste MCQs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="input-container">
+        <div class="input-card">
+            <h1>Paste Your MCQs</h1>
+            <p>Paste questions with answers in the format below.</p>
+
+            <textarea id="mcqInput" placeholder="Example:
+
+Q1. What is Java?
+A) Browser
+B) Language
+C) OS
+D) Database
+Answer: B"></textarea>
+
+            <div class="settings">
+                <input type="number" id="questionCount" placeholder="Number of Questions" min="1">
+                <input type="number" id="timerMinutes" placeholder="Timer in Minutes" min="1">
+            </div>
+
+            <button onclick="generateTest()">Generate Test</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Old Test Review</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="loadReview()">
+
+<div class="container">
+    <div class="card">
+        <h1>Test Review</h1>
+        <div id="reviewContainer"></div>
+
+        <button onclick="window.location.href='history.html'">
+            Back to History
+        </button>
+    </div>
+</div>
+
+<script>
+async function loadReview() {
+    const testId = localStorage.getItem("selectedTestId");
+
+    const response = await fetch(
+        `http://localhost:8080/api/answers/${testId}`
+    );
+
+    const answers = await response.json();
+
+    const container = document.getElementById("reviewContainer");
+    container.innerHTML = "";
+
+    answers.forEach(a => {
+        const isCorrect = a.selectedAnswer === a.correctAnswer;
+
+        container.innerHTML += `
+            <div class="review-item">
+                <h3>${a.question}</h3>
+
+                <p>
+                    Your Answer:
+                    <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
+                        ${a.selectedAnswer || "Not Answered"}
+                    </span>
+                </p>
+
+                <p>
+                    Correct Answer:
+                    <span class="correct-answer">
+                        ${a.correctAnswer}
+                    </span>
+                </p>
+            </div>
+        `;
+    });
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test History</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="loadHistory()">
+
+<div class="container">
+    <div class="card">
+        <h1>My Test History</h1>
+
+        <div id="historyContainer"></div>
+
+        <button onclick="window.location.href='dashboard.html'">
+            Back to Dashboard
+        </button>
+    </div>
+</div>
+
+<script>
+async function loadHistory() {
+    const userId = localStorage.getItem("userId");
+
+    if (!userId) {
+        alert("Please login first");
+        window.location.href = "login.html";
+        return;
+    }
+
+    const response = await fetch(
+        `http://localhost:8080/api/tests/history/${userId}`
+    );
+
+    const tests = await response.json();
+
+    const container = document.getElementById("historyContainer");
+    container.innerHTML = "";
+
+    if (tests.length === 0) {
+        container.innerHTML = "<p>No test history found.</p>";
+        return;
+    }
+
+    tests.reverse().forEach(test => {
+        const date = new Date(test.createdAt).toLocaleString();
+
+        container.innerHTML += `
+            <div class="review-item">
+                <h3>${test.testName}</h3>
+
+                <p><strong>Questions:</strong> ${test.totalQuestions}</p>
+
+                <p><strong>Score:</strong> ${test.score}</p>
+
+                <p><strong>Duration:</strong> ${test.duration} min</p>
+
+                <p><strong>Date:</strong> ${date}</p>
+
+                <button onclick="openReview(${test.id})">
+                    View Details
+                </button>
+            </div>
+        `;
+    });
+}
+
+function openReview(testId) {
+    localStorage.setItem("selectedTestId", testId);
+    window.location.href = "review-history.html";
+}
+</script>
+
+</body>
+</html>

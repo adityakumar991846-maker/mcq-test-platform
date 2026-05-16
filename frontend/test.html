@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Test</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body onload="startTest()">
+
+    <div class="test-container">
+        <div class="test-card">
+            <div class="top-bar">
+                <h2 id="questionNumber">Question 1</h2>
+                <div id="timer">00:00</div>
+            </div>
+
+            <h3 id="questionText">Question will appear here</h3>
+
+            <div id="optionsContainer"></div>
+
+            <div class="test-buttons">
+                <button onclick="previousQuestion()">Previous</button>
+                <button onclick="nextQuestion()">Next</button>
+                <button onclick="submitTest()">Submit Test</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
