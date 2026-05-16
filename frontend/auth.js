@@ -3,7 +3,7 @@ async function registerUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    const response = await fetch("http://localhost:8080/api/register", {
+    const response = await fetch("/api/register", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -25,7 +25,7 @@ async function loginUser() {
     const email = document.getElementById("loginEmail").value;
     const password = document.getElementById("loginPassword").value;
 
-    const response = await fetch("http://localhost:8080/api/login", {
+    const response = await fetch("http://lhttps://mcq-test-platform-9nl2.onrender.comocalhost:8080/api/login", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

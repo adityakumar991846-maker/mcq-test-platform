@@ -3,6 +3,8 @@ let currentQuestion = 0;
 let userAnswers = [];
 let timer;
 
+const API_BASE = "https://mcq-test-platform-9nl2.onrender.com";
+
 async function generateTest() {
     const mcqText = document.getElementById("mcqInput").value;
     const questionCount = document.getElementById("questionCount").value;
@@ -16,7 +18,7 @@ async function generateTest() {
     const parsedQuestions = parseQuestions(mcqText);
 
     for (const q of parsedQuestions) {
-        await fetch("http://localhost:8080/api/questions", {
+        await fetch(`${API_BASE}/api/questions`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -90,6 +92,8 @@ function startTest() {
     questions = parseQuestions(mcqData).slice(0, questionCount);
     userAnswers = new Array(questions.length).fill("");
 
+    localStorage.setItem("questions", JSON.stringify(questions));
+
     displayQuestion();
     startTimer(timerMinutes * 60);
 }
@@ -121,6 +125,7 @@ function displayQuestion() {
     inputs.forEach(input => {
         input.addEventListener("change", function () {
             userAnswers[currentQuestion] = this.value;
+            localStorage.setItem("userAnswers", JSON.stringify(userAnswers));
 
             const allOptions = document.querySelectorAll(".option");
 
@@ -135,10 +140,7 @@ function displayQuestion() {
                     opt.style.color = "white";
                 }
 
-                if (
-                    optionLetter === this.value &&
-                    this.value !== q.answer
-                ) {
+                if (optionLetter === this.value && this.value !== q.answer) {
                     opt.style.backgroundColor = "red";
                     opt.style.color = "white";
                 }
@@ -179,16 +181,12 @@ function startTimer(seconds) {
 }
 
 async function submitTest() {
-    const submitBtn = document.querySelector("button[onclick='submitTest()']");
-    submitBtn.disabled = true;
-    submitBtn.innerText = "Submitting...";
-
     clearInterval(timer);
 
     let score = 0;
     const userId = Number(localStorage.getItem("userId"));
 
-    const testResponse = await fetch("http://localhost:8080/api/tests", {
+    const testResponse = await fetch(`${API_BASE}/api/tests`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -213,7 +211,7 @@ async function submitTest() {
             score++;
         }
 
-        await fetch("http://localhost:8080/api/answers", {
+        await fetch(`${API_BASE}/api/answers`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -231,7 +229,7 @@ async function submitTest() {
         });
     }
 
-    await fetch("http://localhost:8080/api/tests", {
+    await fetch(`${API_BASE}/api/tests`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -251,6 +249,7 @@ async function submitTest() {
 
     window.location.href = "result.html";
 }
+
 function showResult() {
     const score = localStorage.getItem("score");
     const total = localStorage.getItem("total");
@@ -289,14 +288,12 @@ function showReview() {
         reviewContent.innerHTML += `
             <div class="review-item">
                 <h3>${q.question}</h3>
-
                 <p>
                     Your Answer:
                     <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
                         ${userAnswerText}
                     </span>
                 </p>
-
                 <p>
                     Correct Answer:
                     <span class="correct-answer">
@@ -309,6 +306,5 @@ function showReview() {
 }
 
 function goHome() {
-    localStorage.clear();
     window.location.href = "index.html";
 }
