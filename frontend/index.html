@@ -6,18 +6,16 @@
     <title>MCQ Test Generator</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<script>
-function startApp() {
-    const userId = localStorage.getItem("userId");
-
-    if (userId) {
-        window.location.href = "dashboard.html";
-    } else {
-        window.location.href = "login.html";
-    }
-}
-</script>
 <body>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="history.html">History</a>
+        <a href="login.html" id="loginLink">Login</a>
+        <a href="register.html" id="registerLink">Register</a>
+        <a href="#" onclick="logout()" id="logoutLink" style="display:none;">Logout</a>
+    </nav>
 
     <div class="home-container">
         <div class="home-card">
@@ -27,11 +25,38 @@ function startApp() {
                 Paste questions with answers, set timer, and start your customized test.
             </p>
 
-            <a href="mcq-input.html">
-                <<button onclick="startApp()">Start Test</button>
-            </a>
+            <button onclick="startApp()">Start Test</button>
         </div>
     </div>
+
+    <script>
+        function startApp() {
+            const userId = localStorage.getItem("userId");
+
+            if (userId) {
+                window.location.href = "dashboard.html";
+            } else {
+                window.location.href = "login.html";
+            }
+        }
+
+        function checkUser() {
+            const userId = localStorage.getItem("userId");
+
+            if (userId) {
+                document.getElementById("loginLink").style.display = "none";
+                document.getElementById("registerLink").style.display = "none";
+                document.getElementById("logoutLink").style.display = "inline";
+            }
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = "login.html";
+        }
+
+        checkUser();
+    </script>
 
 </body>
 </html>
