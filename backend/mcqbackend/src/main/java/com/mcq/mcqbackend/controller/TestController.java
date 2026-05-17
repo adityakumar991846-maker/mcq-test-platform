@@ -9,7 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tests")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "https://super-cobbler-01e93d.netlify.app")
 public class TestController {
 
     @Autowired

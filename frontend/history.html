@@ -31,7 +31,7 @@ async function loadHistory() {
     }
 
     const response = await fetch(
-        `http://localhost:8080/api/tests/history/${userId}`
+        `https://mcq-test-platform-9nl2.onrender.com/api/tests/history/${userId}`
     );
 
     const tests = await response.json();

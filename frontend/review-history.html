@@ -24,7 +24,7 @@ async function loadReview() {
     const testId = localStorage.getItem("selectedTestId");
 
     const response = await fetch(
-        `http://localhost:8080/api/answers/${testId}`
+        `http://lhttps://mcq-test-platform-9nl2.onrender.comocalhost:8080/api/answers/${testId}`
     );
 
     const answers = await response.json();
