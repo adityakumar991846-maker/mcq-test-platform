@@ -6,6 +6,17 @@
     <title>MCQ Test Generator</title>
     <link rel="stylesheet" href="style.css">
 </head>
+<script>
+function startApp() {
+    const userId = localStorage.getItem("userId");
+
+    if (userId) {
+        window.location.href = "dashboard.html";
+    } else {
+        window.location.href = "login.html";
+    }
+}
+</script>
 <body>
 
     <div class="home-container">
@@ -17,7 +28,7 @@
             </p>
 
             <a href="mcq-input.html">
-                <button class="start-btn">Start Test</button>
+                <<button onclick="startApp()">Start Test</button>
             </a>
         </div>
     </div>
