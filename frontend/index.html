@@ -3,31 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MCQ Test Generator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>MCQ Test Platform</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            min-height: 100vh;
+        }
+
+        nav {
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: yellow;
+        }
+
+        .hero {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 85vh;
+            padding: 20px;
+        }
+
+        .hero-card {
+            background: rgba(255,255,255,0.95);
+            padding: 50px;
+            border-radius: 25px;
+            text-align: center;
+            max-width: 850px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .hero-card h1 {
+            font-size: 60px;
+            color: #111;
+            margin-bottom: 25px;
+        }
+
+        .hero-card p {
+            font-size: 24px;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+
+        .hero-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            font-size: 22px;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .hero-btn:hover {
+            background: #0056b3;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero-card h1 {
+                font-size: 36px;
+            }
+
+            .hero-card p {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 <body>
 
     <nav>
-        <a href="index.html">Home</a>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="history.html">History</a>
-        <a href="login.html" id="loginLink">Login</a>
-        <a href="register.html" id="registerLink">Register</a>
-        <a href="#" onclick="logout()" id="logoutLink" style="display:none;">Logout</a>
+        <div class="logo">MCQ Platform</div>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="dashboard.html">Dashboard</a>
+            <a href="history.html">History</a>
+            <a href="login.html" id="loginLink">Login</a>
+            <a href="register.html" id="registerLink">Register</a>
+            <a href="#" onclick="logout()" id="logoutLink" style="display:none;">Logout</a>
+        </div>
     </nav>
 
-    <div class="home-container">
-        <div class="home-card">
+    <section class="hero">
+        <div class="hero-card">
             <h1>MCQ Test Generator</h1>
             <p>
                 Convert your MCQs into a live exam instantly.
                 Paste questions with answers, set timer, and start your customized test.
             </p>
 
-            <button onclick="startApp()">Start Test</button>
+            <button class="hero-btn" onclick="startApp()">Start Test</button>
         </div>
-    </div>
+    </section>
 
     <script>
         function startApp() {
