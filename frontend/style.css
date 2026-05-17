@@ -386,17 +386,20 @@ textarea {
 /* FOOTER */
 footer {
     position: fixed;
-    bottom: 10px;
-    left: 0;
-    width: 100%;
-    text-align: center;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(8px);
+    padding: 10px 20px;
+    border-radius: 30px;
     color: white;
     font-size: 14px;
     font-weight: 500;
     z-index: 999;
-    pointer-events: none;
 }
 
 footer span {
     font-weight: bold;
+    color: #fff;
 }
