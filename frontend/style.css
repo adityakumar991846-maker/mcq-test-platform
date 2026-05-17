@@ -385,15 +385,18 @@ textarea {
 }
 /* FOOTER */
 footer {
+    position: fixed;
+    bottom: 10px;
+    left: 0;
+    width: 100%;
     text-align: center;
-    padding: 20px;
     color: white;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
-    margin-top: 20px;
+    z-index: 999;
+    pointer-events: none;
 }
 
 footer span {
     font-weight: bold;
-    color: #fff;
 }
