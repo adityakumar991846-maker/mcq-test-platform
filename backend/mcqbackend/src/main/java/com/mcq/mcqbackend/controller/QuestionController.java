@@ -9,7 +9,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/questions")
-@CrossOrigin("*")
+@CrossOrigin(origins = {
+    "https://super-cobbler-01e93d.netlify.app",
+    "http://127.0.0.1:5500",
+    "http://localhost:5500"
+})
 public class QuestionController {
 
     @Autowired
