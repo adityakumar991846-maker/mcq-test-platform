@@ -17,6 +17,11 @@ async function generateTest() {
 
     const parsedQuestions = parseQuestions(mcqText);
 
+    if (parsedQuestions.length === 0) {
+        alert("Invalid MCQ format.");
+        return;
+    }
+
     for (const q of parsedQuestions) {
         await fetch(`${API_BASE}/api/questions`, {
             method: "POST",
@@ -42,7 +47,7 @@ async function generateTest() {
 }
 
 function shuffleArray(array) {
-    return array.sort(() => Math.random() - 0.5);
+    return [...array].sort(() => Math.random() - 0.5);
 }
 
 function parseQuestions(text) {
@@ -50,33 +55,45 @@ function parseQuestions(text) {
     const parsed = [];
 
     blocks.forEach(block => {
-        const lines = block.split("\n");
+        const lines = block
+            .split("\n")
+            .map(line => line.trim())
+            .filter(line => line !== "");
 
-        if (lines.length >= 6) {
-            let options = [
-                lines[1],
-                lines[2],
-                lines[3],
-                lines[4]
-            ];
+        if (lines.length < 6) return;
 
-            const correctAnswerLetter = lines[5].split(":")[1].trim();
-            const correctOptionText = options.find(opt =>
-                opt.startsWith(correctAnswerLetter)
-            );
+        let options = [
+            lines[1],
+            lines[2],
+            lines[3],
+            lines[4]
+        ];
 
-            options = shuffleArray(options);
+        if (!lines[5].includes(":")) return;
 
-            const newCorrectAnswer = options.find(
-                opt => opt === correctOptionText
-            ).charAt(0);
+        const correctAnswerLetter = lines[5].split(":")[1]?.trim();
 
-            parsed.push({
-                question: lines[0],
-                options: options,
-                answer: newCorrectAnswer
-            });
-        }
+        if (!correctAnswerLetter) return;
+
+        const correctOptionText = options.find(opt =>
+            opt && opt.startsWith(correctAnswerLetter)
+        );
+
+        if (!correctOptionText) return;
+
+        options = shuffleArray(options);
+
+        const newCorrectAnswer = options.find(
+            opt => opt === correctOptionText
+        )?.charAt(0);
+
+        if (!newCorrectAnswer) return;
+
+        parsed.push({
+            question: lines[0],
+            options: options,
+            answer: newCorrectAnswer
+        });
     });
 
     return shuffleArray(parsed);
@@ -100,6 +117,8 @@ function startTest() {
 
 function displayQuestion() {
     const q = questions[currentQuestion];
+
+    if (!q) return;
 
     document.getElementById("questionNumber").innerText =
         `Question ${currentQuestion + 1} of ${questions.length}`;
@@ -192,7 +211,7 @@ async function submitTest() {
             "Content-Type": "application/json"
         },
         body: JSON.stringify({
-            userId: userId,
+            userId,
             testName: "Custom MCQ Test",
             totalQuestions: questions.length,
             score: 0,
@@ -217,7 +236,7 @@ async function submitTest() {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                testId: testId,
+                testId,
                 question: q.question,
                 optionA: q.options[0],
                 optionB: q.options[1],
@@ -228,21 +247,6 @@ async function submitTest() {
             })
         });
     }
-
-    await fetch(`${API_BASE}/api/tests`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            id: testId,
-            userId: userId,
-            testName: "Custom MCQ Test",
-            totalQuestions: questions.length,
-            score: score,
-            duration: Number(localStorage.getItem("timerMinutes"))
-        })
-    });
 
     localStorage.setItem("score", score);
     localStorage.setItem("total", questions.length);
@@ -288,14 +292,12 @@ function showReview() {
         reviewContent.innerHTML += `
             <div class="review-item">
                 <h3>${q.question}</h3>
-                <p>
-                    Your Answer:
+                <p>Your Answer:
                     <span class="${isCorrect ? 'correct-answer' : 'wrong-answer'}">
                         ${userAnswerText}
                     </span>
                 </p>
-                <p>
-                    Correct Answer:
+                <p>Correct Answer:
                     <span class="correct-answer">
                         ${correctAnswerText}
                     </span>
